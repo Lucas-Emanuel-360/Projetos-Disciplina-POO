@@ -26,10 +26,9 @@ public class Veiculo {
     private List<Double> consumosViagens = new ArrayList<>();
 
 
-    public Veiculo(String placa, String modelo, Motorista motorista) {
+    public Veiculo(String placa, String modelo) {
         this.placa = placa;
         this.modelo = modelo;
-        this.motorista = motorista;
         this.nivelCombustivel = 0.0;
         this.distanciaTotalPercorrida = 0.0;
     }
@@ -45,8 +44,11 @@ public class Veiculo {
     }
     
     public void registrarViagem(double distanciaKm) {
+        if(motorista == null){
+            System.out.println("Erro: Não é possível viajar sem um motorista cadastrado!");
+            return;}
         double consumoEstimado = distanciaKm / 10.0;
-
+        
         if (distanciaKm > 0 && this.nivelCombustivel >= consumoEstimado) {
          
             this.nivelCombustivel -= consumoEstimado;
@@ -66,14 +68,19 @@ public class Veiculo {
         System.out.println("\n---------- STATUS DO VEÍCULO ----------");
         System.out.println("Placa: " + this.placa);
         System.out.println("Modelo: " + this.modelo);
-        System.out.println("Motorista Atual: " + motorista.getNome());
+        if (this.motorista != null) {
+            System.out.println("Motorista Atual: " + motorista.getNome());
+        } else {
+            System.out.println("Motorista Atual: Nenhum");
+        }
         System.out.printf("Combustível no Tanque: %.2f L%n", this.nivelCombustivel);
         System.out.printf("Odômetro: %.1f km%n", this.distanciaTotalPercorrida);
         System.out.println("---------------------------------------\n");
     }
 
     public void gerarRelatorioViagens() {
-        System.out.println("======= RELATÓRIO DE VIAGENS DE "+motorista.getNome()+" =======");
+        String nomeMotorista = (this.motorista != null) ? this.motorista.getNome() : "Desconhecido";
+        System.out.println("======= RELATÓRIO DE VIAGENS DE "+nomeMotorista+" =======");
         for (int i = 0; i < distanciasViagens.size(); i++) {
             System.out.printf("[%s] Distância: %.1f km | Consumo: %.1f L%n", 
                               datasViagens.get(i), distanciasViagens.get(i), consumosViagens.get(i));
@@ -82,7 +89,19 @@ public class Veiculo {
 
     // Getters e Setters
     public Motorista getMotorista() { return motorista; }
-    public void setMotorista(Motorista motorista) { this.motorista = motorista; }
+    public void setMotorista(Motorista novoMotorista) {
+        if (novoMotorista.getCategoriaCnh() != 'D' && novoMotorista.getCategoriaCnh() != 'd') {
+            System.out.println("Acesso Negado: O motorista " + novoMotorista.getNome() + " não possui categoria 'D'.");
+            return;
+        } // esse if verifica se tem categoria D para poder dirigir um veiculo da frota
+        if (this.motorista != null) {
+            this.motorista.setVeiculo(null);
+            System.out.println("Aviso: O motorista " + this.motorista.getNome() + " foi desvinculado do veículo " + this.placa);
+        } // motorista sai do turno
+        this.motorista = novoMotorista;
+        this.motorista.setVeiculo(this); 
+        System.out.println("Sucesso: O motorista " + novoMotorista.getNome() + " assumiu o veículo " + this.placa);
+    } // entra o novo motorista
     public String getPlaca() { return placa; }
     public double getDistanciaTotalPercorrida() { return distanciaTotalPercorrida; }
     public String getModelo() {

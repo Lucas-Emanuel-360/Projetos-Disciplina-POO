@@ -4,22 +4,23 @@
  */
 package br.edu.ifnmg.lersm.ecodrive1;
 
-/**
- * @author IFNMG
- */
 public class Motorista {
 
     private long numeroCnh;
     private String nome;
-
+    private char categoriaCnh;
+    private Veiculo veiculo;
+   
+    
     public Motorista() {
         nome = "Sem Nome ou Nome Invalido";
         numeroCnh = 10000000000L;
     }
 
-    public Motorista(String nome, long numeroCnh) {
+    public Motorista(String nome, long numeroCnh, char categoriaCnh) {
         this.nome = nome;
         this.numeroCnh = numeroCnh;
+        this.categoriaCnh = categoriaCnh;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters / Setters">
@@ -41,6 +42,22 @@ public class Motorista {
 
     public String getNome() {
         return nome;
+    }
+
+    public char getCategoriaCnh() {
+        return categoriaCnh;
+    }
+
+    public void setCategoriaCnh(char categoriaCnh) {
+        this.categoriaCnh = categoriaCnh;
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
     }
 //</editor-fold>
 
