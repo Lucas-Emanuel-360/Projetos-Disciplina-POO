@@ -7,35 +7,28 @@ public class EcoDrive1 {
 
     public static void main(String[] args) {
 
-        Motorista motoristaA = new Motorista("Motorista A", 11111111111L, 'B');
-        Motorista motoristaB = new Motorista("Motorista B", 22222222222L, 'D');
-        Motorista motoristaC = new Motorista("Motorista C", 22222222222L, 'D');        
+
+        Motorista motoristaD = new Motorista("Carlos Silva", 99988877766L, 'D');        
+        Veiculo veiculo = new Veiculo("XYZ-9876", "Caminhão de Carga");
         
-        Veiculo veiculo = new Veiculo("ABC-1234", "Caminhão Baú");
+        veiculo.abastecer(50);
+        veiculo.setMotorista(motoristaD); 
+
+        System.out.println("\n--- Desafio 3: Realizar 3 viagens de distâncias diferentes ---");
+        veiculo.registrarViagem(20); 
+        veiculo.registrarViagem(50); 
+        veiculo.registrarViagem(15); 
+
+        System.out.println("\n--- Desafio 4: Gerar Relatório de Viagens ---");
+        // Deve mostrar as 3 viagens e a soma de 85km
+        veiculo.gerarRelatorioViagens(); 
         
-        veiculo.abastecer(20); 
+        System.out.println("\n--- Desafio Extra: Tentar viagem longa (Combustível insuficiente) ---");
+        // Tanque atual: 50L. Gastou 8.5L (sobrou 41.5L). 
+        // 600km exigiria 60L, então deve falhar e NÃO entrar no relatório.
+        veiculo.registrarViagem(600); 
 
-        System.out.println("\n--- Teste do Desafio 1: Viajar sem motorista ---"); // Mostrar erro sem motorista
-
-        veiculo.registrarViagem(40); 
-
-        System.out.println("\n--- Teste do Cenário 2: Tentar vincular Motorista A (Cat. B) ---"); // Mostrar erro motorista sem cnh adequada
-        veiculo.setMotorista(motoristaA); 
-
-        System.out.println("\n--- Teste do Cenário 3: Vincular Motorista B e viajar 40km ---"); // Vai dar certo de vincular e viajar
-        veiculo.setMotorista(motoristaB); 
-        veiculo.registrarViagem(40); 
-
-        System.out.println("\n--- Teste do Cenário 4: Exibir Status ---"); // Mostra o status atual do veiculo da frota
-        veiculo.exibirStatus(); 
-        
-        System.out.println("\n--- Teste do Cenário 5: Vincular Motorista C e viajar 60km ---"); // Troca o motorista e viaja mais 60km
-        veiculo.setMotorista(motoristaC); 
-        veiculo.registrarViagem(60); 
-
-        System.out.println("\n--- Teste do Cenário 6: Exibir Status ---"); // Mostra o status atual do veiculo da frota
-        veiculo.exibirStatus(); 
-        
-        
+        System.out.println("\n--- Verificação Final do Relatório ---");
+        veiculo.gerarRelatorioViagens(); 
     }
 }
