@@ -4,7 +4,7 @@ Este repositório contém os projetos desenvolvidos durante a disciplina de Prog
 
 ---
 
-## 🚗 Projeto 1: EcoDrive Realizado de (14/03/2026 a 01/04/2026)
+## 🚗 Projeto 1: EcoDrive (Realizado de 14/03/2026 a 01/04/2026)
 
 O **EcoDrive** é um sistema de simulação de gerenciamento de frotas. O objetivo principal do projeto é controlar o uso de veículos, gerenciar o consumo de combustível e aplicar regras de negócio em relação aos motoristas autorizados a dirigi-los.
 
@@ -20,17 +20,19 @@ O sistema simula diversos cenários do dia a dia de uma frota:
 * **Troca de Turno/Motorista:** Desvinculação automática do motorista anterior ao atribuir um novo motorista ao veículo.
 * **Relatórios e Status:** Exibição do status atual do veículo (placa, modelo, motorista, tanque e odômetro) e geração de histórico de viagens com datas e distâncias.
 
-## 💻 Projeto 2: SpaceShare Realizado de (02/04/2026 a 15/04/2026)
+---
 
-O **SpaceShare** é um sistema de gerenciamento de estações de trabalho compartilhadas. O objetivo principal do projeto é controlar a alocação de usuários nas máquinas, otimizando o tempo de uso e aplicando regras de segurança para evitar desgaste do equipamento.
+## 💻 Projeto 2: SpaceShare (Realizado de 02/04/2026 a 15/04/2026)
+
+O **SpaceShare** é um sistema de gerenciamento de estações de trabalho compartilhadas. O objetivo principal do projeto é controlar a alocação de usuários nas máquinas, otimizando o tempo de uso e aplicando regras rigorosas de concorrência de horários.
 
 ### 📋 Funcionalidades
 
-O sistema simula o controle de agendamentos diários em um ambiente de coworking ou laboratório:
-* **Gestão de Reservas:** Registro de usuários atrelados à quantidade de horas que pretendem utilizar a estação.
-* **Controle de Capacidade:** Monitoramento contínuo das horas já reservadas em cada máquina.
-* **Validação de Regras de Negócio:**
-    * Limitar o uso diário de cada estação a um máximo de **10 horas**, prevenindo sobrecarga de energia e reduzindo custos de manutenção.
-    * Aprovar automaticamente reservas que se encaixem no tempo limite.
-    * Rejeitar e bloquear tentativas de reserva que excedam a capacidade diária disponível.
-* **Relatórios e Status:** Geração do "Mapa de Uso", exibindo o número da estação de trabalho, a lista de usuários agendados para aquele dia e o tempo de ocupação individual.
+O sistema simula o controle de agendamentos dinâmicos em um ambiente de coworking ou laboratório:
+* **Gestão de Reservas:** Registro de usuários atrelados a um horário exato de início e uma duração prevista de uso (utilizando `LocalTime`).
+* **Controle Dinâmico de Capacidade:** O sistema permite a alocação contínua da estação ao longo do dia, sem limite fixo de horas totais, desde que não haja sobreposição de horários.
+* **Validação de Regras de Negócio (Prevenção de Conflitos):**
+    * **Lógica de Intersecção:** O sistema impede novas reservas caso o intervalo (Início ao Término) coincida com qualquer reserva já existente na lista.
+    * A regra aplicada garante que: `(Nova_Inicio < Existente_Termino) AND (Nova_Termino > Existente_Inicio)`.
+    * Aprovação imediata de reservas em horários sequenciais (ex: uma reserva termina às 10h e outra começa exatamente às 10h).
+* **Relatórios e Status:** Geração do "Mapa de Uso", exibindo o número da estação, a lista de usuários confirmados e os respectivos intervalos de ocupação (ex: 08:00 às 10:00).
