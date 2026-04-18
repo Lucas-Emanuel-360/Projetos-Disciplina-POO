@@ -2,41 +2,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.edu.ifnmg.lersm.mavenproject1;
+package br.edu.ifnmg.lersm;
 
-/**
- *
- * @author IFNMG
- */
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Estacao {
     private int numero;
     private ArrayList<Reserva> listaReservas;
 
-
     public Estacao(int numero) {
         this.numero = numero;
         this.listaReservas = new ArrayList<>(); 
     }
 
+    public boolean adicionarReserva(Reserva nova) {
+        LocalTime novaInicio = nova.getHoraInicio();
+        LocalTime novaTermino = nova.getHoraTermino();
 
-    public boolean adicionarReserva(Reserva r) {
-        int horasTotais = 0;
-        
-        for (Reserva reservaExistente : listaReservas) {
-            horasTotais += reservaExistente.getHoras();
+        for (Reserva existente : listaReservas) {
+            LocalTime existenteInicio = existente.getHoraInicio();
+            LocalTime existenteTermino = existente.getHoraTermino();
+
+            if (novaInicio.isBefore(existenteTermino) && novaTermino.isAfter(existenteInicio)) {
+                System.out.println("Erro: Conflito de horário! A reserva de " + nova.getUsuario() + 
+                                   " (" + novaInicio + " às " + novaTermino + ") conflita com a de " + 
+                                   existente.getUsuario() + " (" + existenteInicio + " às " + existenteTermino + ").");
+                return false; 
+            }
         }
 
-        if (horasTotais + r.getHoras() <= 10) {
-            listaReservas.add(r);
-            return true; 
-        } else {
-            return false; 
-        }
+     
+        listaReservas.add(nova);
+        return true;
     }
 
- 
     public void imprimirMapa() {
         System.out.println("====================================");
         System.out.println("Estação de Trabalho Nº: " + numero);
@@ -47,7 +47,7 @@ public class Estacao {
         } else {
             System.out.println("Usuários agendados:");
             for (Reserva r : listaReservas) {
-                System.out.println(" -> " + r.getUsuario() + " (Uso: " + r.getHoras() + "h)");
+                System.out.println(" -> " + r.getUsuario() + " (" + r.getHoraInicio() + " às " + r.getHoraTermino() + ")");
             }
         }
     }
