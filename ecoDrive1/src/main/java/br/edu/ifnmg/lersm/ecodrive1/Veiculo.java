@@ -8,19 +8,18 @@ package br.edu.ifnmg.lersm.ecodrive1;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Veiculo {
 
-    // Atributos do Veículo
     private String placa;
     private String modelo;
     private double nivelCombustivel;
-    private double distanciaTotalPercorrida; // Odômetro
+    private double distanciaTotalPercorrida;
     private final double CAPACIDADE_MAXIMA = 50.0;
 
     private Motorista motorista;
 
-    // Substituição das listas paralelas por uma lista de objetos Viagem
     private List<Viagem> historicoViagens = new ArrayList<>();
 
     public Veiculo(String placa, String modelo) {
@@ -48,10 +47,8 @@ public class Veiculo {
         
         double consumoEstimado = distanciaKm / 10.0;
         
-        // Cria a instância da nova viagem
         Viagem novaViagem = new Viagem(LocalDate.now(), distanciaKm, consumoEstimado);
         
-        // Valida o consumo usando o método da nova classe
         if (!novaViagem.validarConsumo()) {
             System.out.println("Erro: Consumo de combustível ou distância informada são inválidos.");
             return;
@@ -59,9 +56,8 @@ public class Veiculo {
 
         if (distanciaKm > 0 && this.nivelCombustivel >= consumoEstimado) {
             this.nivelCombustivel -= consumoEstimado;
-            this.distanciaTotalPercorrida += distanciaKm; // Atualização do odômetro
+            this.distanciaTotalPercorrida += distanciaKm;
 
-            // Adiciona a instância validada ao histórico
             historicoViagens.add(novaViagem);
 
             System.out.println("Viagem de " + distanciaKm + "km concluída por: " + motorista.getNome());
@@ -84,7 +80,6 @@ public class Veiculo {
         System.out.println("---------------------------------------\n");
     }
 
-    // Desafio 1: Método atualizado com laço for e soma total
     public void gerarRelatorioViagens() {
         String nomeMotorista = (this.motorista != null) ? this.motorista.getNome() : "Desconhecido";
         System.out.println("\n======= RELATÓRIO DE VIAGENS DE " + nomeMotorista + " =======");
@@ -102,7 +97,6 @@ public class Veiculo {
         System.out.println("=================================================\n");
     }
 
-    // Getters e Setters
     public Motorista getMotorista() { return motorista; }
     
     public void setMotorista(Motorista novoMotorista) {
@@ -123,4 +117,17 @@ public class Veiculo {
     public double getDistanciaTotalPercorrida() { return distanciaTotalPercorrida; }
     public String getModelo() { return this.modelo; }
     public double getNivelCombustivel() { return this.nivelCombustivel; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Veiculo veiculo = (Veiculo) obj;
+        return Objects.equals(placa, veiculo.placa);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(placa);
+    }
 }
