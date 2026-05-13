@@ -1,42 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-package br.edu.ifnmg.lersm.mavenproject1;
+// SpaceShare.java (Atualizado)
+package br.edu.ifnmg.aluno.lersm.spaceshare;
 
 import java.time.LocalTime;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpaceShare {
     public static void main(String[] args) {
-       
-        Estacao estacao101 = new Estacao(101);
-        Reserva r1 = new Reserva("João", LocalTime.of(8, 0), 2);
-        estacao101.adicionarReserva(r1);
+        HashMap<Integer, Estacao> mapaEstacoes = new HashMap<>();
         
-        System.out.println("--- Teste do Desafio de Especialização ---");
-        
+        Mesa estacao101 = new Mesa(101);
         SalaReuniao sala501 = new SalaReuniao(501, 10, true);
         CabineCall cabine10 = new CabineCall(10, true);
         
-        Reserva reservaReuniao = new Reserva("Equipe Desenvolvimento", LocalTime.of(14, 0), 2);
-        Reserva reservaCall = new Reserva("Lucas", LocalTime.of(10, 0), 1);
+        mapaEstacoes.put(estacao101.getNumero(), estacao101);
+        mapaEstacoes.put(sala501.getNumero(), sala501);
+        mapaEstacoes.put(cabine10.getNumero(), cabine10);
         
-        sala501.adicionarReserva(reservaReuniao);
-        cabine10.adicionarReserva(reservaCall);
-            
-        sala501.exibirEspecificacoes(); 
-        sala501.imprimirMapa();         
-        
-        System.out.println();
-       
-        cabine10.entrarEmChamada();     
-        cabine10.imprimirMapa();        
+        System.out.println("--- Teste de Ordenação Cronológica (TreeSet) ---");
+        estacao101.adicionarReserva(new Reserva("Waleska", LocalTime.of(14, 0), 2));
+        estacao101.adicionarReserva(new Reserva("Fernando", LocalTime.of(8, 0), 2));
+        estacao101.imprimirMapa();
 
-        System.out.println("\n--- Atividade 2: Teste de Duplicidade (HashSet) ---");
-        Reserva reservaDuplicada = new Reserva("Equipe Desenvolvimento", LocalTime.of(14, 0), 2);
-        
-        sala501.adicionarReserva(reservaDuplicada);
-        
-        sala501.imprimirMapa();
+        System.out.println("\n--- TESTE DE FATURAMENTO ---");
+        ArrayList<Estacao> estacoes = new ArrayList<>();
+        estacoes.add(estacao101); 
+        estacoes.add(sala501);    
+        estacoes.add(cabine10);   
+
+        GerenciadorFinanceiro financeiro = new GerenciadorFinanceiro();
+        financeiro.imprimirFaturamento(estacoes, 2); 
     }
 }

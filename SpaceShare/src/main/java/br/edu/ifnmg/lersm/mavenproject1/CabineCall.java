@@ -1,23 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// CabineCall.java (Atualizado)
+package br.edu.ifnmg.aluno.lersm.spaceshare;
 
-package br.edu.ifnmg.lersm.mavenproject1;
-
-public class CabineCall extends Estacao {
+public class CabineCall extends Estacao implements Promocional {
     private boolean isolamentoAcustico;
+    private double desconto = 0;
 
     public CabineCall(int numero, boolean isolamentoAcustico) {
         super(numero);
         this.isolamentoAcustico = isolamentoAcustico;
     }
 
-    public void entrarEmChamada() {
+    // Implementação da Interface Promocional
+    @Override
+    public void aplicarDesconto(double percentual) {
+        this.desconto = percentual;
+        System.out.println("Desconto de " + percentual + "% aplicado na cabine " + getNumero() + "!");
+    }
+
+    @Override
+    public double calcularPreco(int horas) {
+        // Como Estacao agora é abstrata, não podemos chamar super.calcularPreco()
+        double precoBase = horas * 15.0; // Preço base inventado para o exemplo
         if (this.isolamentoAcustico) {
-            System.out.println("Silêncio ativado");
-        } else {
-            System.out.println("Aviso: Esta cabine não possui isolamento acústico ativo.");
+            precoBase = precoBase * 1.20; 
         }
+        return precoBase - (precoBase * (desconto / 100));
     }
 }

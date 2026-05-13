@@ -1,25 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package br.edu.ifnmg.lersm.mavenproject1;
+// SalaReuniao.java (Atualizado)
+package br.edu.ifnmg.aluno.lersm.spaceshare;
 
-// 'extends' estabelece o vínculo de herança
-public class SalaReuniao extends Estacao {
+public class SalaReuniao extends Estacao implements Higienizavel {
     private int capacidade;
     private boolean temProjetor;
 
     public SalaReuniao(int numero, int capacidade, boolean temProjetor) {
-        // O super(numero) envia o dado para o construtor da Estacao
         super(numero);
         this.capacidade = capacidade;
         this.temProjetor = temProjetor;
     }
 
-    // Método exclusivo da Sala de Reunião
     public void exibirEspecificacoes() {
         System.out.println("Especificações da Sala #" + getNumero());
         System.out.println("Capacidade: " + capacidade + " pessoas");
         System.out.println("Recursos: " + (temProjetor ? "Projetor disponível" : "Apenas mesa"));
+    }
+
+    // 1. Implementação da Interface Higienizavel
+    @Override
+    public void realizarLimpeza() {
+        System.out.println("Limpando sala, trocando café e higienizando projetor.");
+    }
+
+    // 2. Implementação obrigatória da classe abstrata Estacao
+    @Override
+    public double calcularPreco(int horas) {
+        return horas * 30.0; // Exemplo: R$ 30 por hora para sala de reunião
     }
 }

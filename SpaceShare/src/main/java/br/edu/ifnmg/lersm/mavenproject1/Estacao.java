@@ -1,33 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package br.edu.ifnmg.lersm.mavenproject1;
+package br.edu.ifnmg.aluno.lersm.spaceshare;
 
-import java.time.LocalTime;
-import java.util.HashSet;
+import java.util.TreeSet;
 
-public class Estacao {
+public abstract class Estacao {
     private int numero;
-    private HashSet<Reserva> listaReservas;
+    private TreeSet<Reserva> listaReservas;
 
     public Estacao(int numero) {
         this.numero = numero;
-        this.listaReservas = new HashSet<>(); 
+        this.listaReservas = new TreeSet<>();
     }
     
-    public int getNumero() {
-        return numero;
-    }
+    public int getNumero() { return numero; }
+
+    public abstract double calcularPreco(int horas);
 
     public boolean adicionarReserva(Reserva nova) {
         boolean adicionado = listaReservas.add(nova);
-        
         if (!adicionado) {
             System.out.println("Reserva ignorada: este agendamento já existe");
             return false;
         }
-        
         return true;
     }
 

@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package br.edu.ifnmg.lersm.mavenproject1;
+package br.edu.ifnmg.aluno.lersm.spaceshare;
 
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Reserva {
+// 1. Implementando a interface Comparable para ensinar o Java a ordenar as reservas
+public class Reserva implements Comparable<Reserva> {
     private String usuario;
     private LocalTime horaInicio;
     private int duracaoHoras;
@@ -45,5 +42,12 @@ public class Reserva {
     @Override
     public int hashCode() {
         return Objects.hash(usuario, horaInicio);
+    }
+
+    // 2. Método exigido pela interface Comparable
+    @Override
+    public int compareTo(Reserva outra) {
+        // Compara a hora de início desta reserva com a hora de início da "outra"
+        return this.horaInicio.compareTo(outra.horaInicio);
     }
 }
